@@ -1,0 +1,56 @@
+{
+    "id": 1,
+    "name": "John Doe",
+    "curriculum": "Abitur",
+    "year": 7,
+    "subjects": [
+        {
+            "id": 1,
+            "name": "Mathematik"
+        },
+        {
+            "id": 2,
+            "name": "Deutsch"
+        },
+        {
+            "id": 3,
+            "name": "Englisch"
+        },
+        {
+            "id": 4,
+            "name": "Physik"
+        },
+        {
+            "id": 5,
+            "name": "Chemie"
+        },
+        {
+            "id": 6,
+            "name": "Biologie"
+        },
+        {
+            "id": 7,
+            "name": "Geschichte"
+        },
+        {
+            "id": 8,
+            "name": "Erdkunde"
+        },
+        {
+            "id": 9,
+            "name": "Politik"
+        },
+        {
+            "id": 10,
+            "name": "Sport"
+        },
+        {
+            "id": 11,
+            "name": "Kunst"
+        },
+        {
+            "id": 12,
+            "name": "Musik"
+        }
+    ]
+}
