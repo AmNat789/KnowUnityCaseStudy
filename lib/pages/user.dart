@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class UserPage extends StatefulWidget {
   final Map<String, dynamic> userData;
 
-  UserPage({required this.userData});
+  const UserPage({super.key, required this.userData});
 
   @override
   _UserPageState createState() => _UserPageState();
@@ -61,20 +61,31 @@ class _UserPageState extends State<UserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('User Page'),
+        title: Text('User Page',
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
         backgroundColor: Theme.of(context).colorScheme.primary,
         elevation: 4,
+        iconTheme:
+            IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          UserInfoSection(userData: widget.userData),
-          SubjectLists(
-            teachingSubjects: teachingSubjects,
-            learningSubjects: learningSubjects,
-            onMoveToSubjects: moveToSubjects,
-            onMoveToLearning: moveToLearning,
-            onMoveToTeaching: moveToTeaching,
+          Material(
+            color: Theme.of(context).colorScheme.secondary,
+            elevation: 4,
+            child: Column(
+              children: [
+                UserInfoSection(userData: widget.userData),
+                SubjectLists(
+                  teachingSubjects: teachingSubjects,
+                  learningSubjects: learningSubjects,
+                  onMoveToSubjects: moveToSubjects,
+                  onMoveToLearning: moveToLearning,
+                  onMoveToTeaching: moveToTeaching,
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: SubjectSelectionList(

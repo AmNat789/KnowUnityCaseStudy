@@ -1,3 +1,4 @@
+import 'package:case_study/widgets/formatted_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:case_study/models/subject.dart';
 
@@ -6,7 +7,8 @@ class SubjectSelectionList extends StatelessWidget {
   final Function(Subject) onMoveToLearning;
   final Function(Subject) onMoveToTeaching;
 
-  SubjectSelectionList({
+  const SubjectSelectionList({
+    super.key,
     required this.subjects,
     required this.onMoveToLearning,
     required this.onMoveToTeaching,
@@ -19,26 +21,12 @@ class SubjectSelectionList extends StatelessWidget {
       itemCount: subjects.length,
       itemBuilder: (context, index) {
         final subject = subjects[index];
-        return ListTile(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_upward),
-            onPressed: () {
-              onMoveToTeaching(subject);
-            },
-          ),
-          title: Center(
-            child: Text(
-              subject.name,
-              softWrap: false,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.arrow_upward),
-            onPressed: () {
-              onMoveToLearning(subject);
-            },
-          ),
+        return FormattedListTile(
+          leftIcon: Icon(Icons.arrow_upward),
+          onPressedLeft: () => onMoveToTeaching(subject),
+          title: subject.name,
+          rightIcon: Icon(Icons.arrow_upward),
+          onPressedRight: () => onMoveToLearning(subject),
         );
       },
     );
