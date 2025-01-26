@@ -1,4 +1,5 @@
 import 'package:case_study/pages/buddy.dart';
+import 'package:case_study/widgets/formatted_app_bar.dart';
 import 'package:case_study/widgets/subject_list.dart';
 import 'package:case_study/widgets/subject_selection_list.dart';
 import 'package:case_study/widgets/user_info_section.dart';
@@ -96,14 +97,7 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User Page',
-            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary)),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 4,
-        iconTheme:
-            IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-      ),
+      appBar: FormattedAppBar(title: "User Page"),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

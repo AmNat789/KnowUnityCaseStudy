@@ -1,4 +1,5 @@
 import 'package:case_study/pages/buddy.dart';
+import 'package:case_study/widgets/formatted_app_bar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,7 +44,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Flutter Demo Home Page')),
+        appBar: FormattedAppBar(title: "Home Page"),
         body: Column(
           children: [
             ElevatedButton(

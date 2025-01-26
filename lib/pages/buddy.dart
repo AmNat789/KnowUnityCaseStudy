@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:case_study/pages/user.dart';
+import 'package:case_study/widgets/formatted_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,9 +47,7 @@ class _BuddyPageState extends State<BuddyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Buddy Page'),
-      ),
+      appBar: FormattedAppBar(title: "Buddy Page"),
       body: Center(
         child: userData == null
             ? CircularProgressIndicator()
