@@ -3,7 +3,7 @@ import 'package:case_study/widgets/formatted_app_bar.dart';
 import 'package:case_study/widgets/subject_list.dart';
 import 'package:case_study/widgets/subject_selection_list.dart';
 import 'package:case_study/widgets/user_info_section.dart';
-import 'package:case_study/models/subject.dart';
+import 'package:case_study/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -102,7 +102,7 @@ class _UserPageState extends State<UserPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Material(
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme.of(context).colorScheme.surfaceDim,
             elevation: 4,
             child: Column(
               children: [

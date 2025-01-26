@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:case_study/models/models.dart';
 import 'package:case_study/pages/user.dart';
+import 'package:case_study/widgets/buddy_list.dart';
 import 'package:case_study/widgets/formatted_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -13,7 +15,7 @@ class BuddyPage extends StatefulWidget {
 
 class _BuddyPageState extends State<BuddyPage> {
   Map<String, dynamic>? userData;
-  List<Map<String, dynamic>>? buddiesData;
+  List<Buddy>? buddiesData;
   List<int> teachingSubjectIds = [];
   List<int> learningSubjectIds = [];
 
@@ -31,12 +33,12 @@ class _BuddyPageState extends State<BuddyPage> {
 
     String buddiesJsonString =
         await rootBundle.loadString('assets/mock/buddies.json');
-    final buddiesJsonResponse =
-        List<Map<String, dynamic>>.from(jsonDecode(buddiesJsonString));
+    final buddiesJsonResponse = jsonDecode(buddiesJsonString) as List;
 
     setState(() {
       userData = userJsonResponse;
-      buddiesData = List<Map<String, dynamic>>.from(buddiesJsonResponse);
+      buddiesData =
+          buddiesJsonResponse.map((buddy) => Buddy.fromJson(buddy)).toList();
     });
   }
 
@@ -53,33 +55,36 @@ class _BuddyPageState extends State<BuddyPage> {
   }
 
   // This should be done on the Backend. Function just exists for demonstration purposes.
-  List<Map<String, dynamic>> sortBuddies() {
+  List<Buddy> sortBuddies() {
     if (buddiesData == null ||
         (teachingSubjectIds.isEmpty && learningSubjectIds.isEmpty)) {
       return [];
     }
-    List<Map<String, dynamic>> scoredBuddies = buddiesData!.map((buddy) {
-      num score = 0;
+
+    List<Buddy> scoredBuddies = buddiesData!.map((buddy) {
+      int score = 0;
 
       // Calculate matches for learningSubjectIds
-      score += buddy['learningSubjects']
+      score += buddy.learningSubjects
           .where((subject) => teachingSubjectIds.contains(subject))
           .length;
 
       // Calculate matches for teachingSubjects
-      score += buddy['teachingSubjects']
+      score += buddy.teachingSubjects
           .where((subject) => learningSubjectIds.contains(subject))
           .length;
 
-      // Add score to buddy data
-      return {
-        ...buddy,
-        'score': score,
-      };
+      return Buddy(
+        name: buddy.name,
+        id: buddy.id,
+        score: score,
+        teachingSubjects: buddy.teachingSubjects,
+        learningSubjects: buddy.learningSubjects,
+      );
     }).toList();
 
     // Sort buddies by score in descending order
-    scoredBuddies.sort((a, b) => b['score'].compareTo(a['score']));
+    scoredBuddies.sort((a, b) => b.score!.compareTo(a.score!));
 
     return scoredBuddies;
   }
@@ -112,30 +117,10 @@ class _BuddyPageState extends State<BuddyPage> {
                   ),
                   if (sortedBuddies.isNotEmpty)
                     Expanded(
-                      child: SingleChildScrollView(
-                        child: DataTable(
-                          columns: [
-                            DataColumn(label: Text('Name')),
-                            DataColumn(label: Text('Teaching Subject IDs')),
-                            DataColumn(label: Text('Learning Subject IDs')),
-                            DataColumn(label: Text('Score')),
-                          ],
-                          rows: [
-                            for (var buddy in sortedBuddies)
-                              DataRow(
-                                cells: [
-                                  DataCell(Text(buddy['name'])),
-                                  DataCell(Text(buddy['teachingSubjects']
-                                      .map((e) => e.toString())
-                                      .join(', '))),
-                                  DataCell(Text(buddy['learningSubjects']
-                                      .map((e) => e.toString())
-                                      .join(', '))),
-                                  DataCell(Text(buddy['score'].toString())),
-                                ],
-                              ),
-                          ],
-                        ),
+                      child: BuddyList(
+                        buddies: sortedBuddies,
+                        teachingSubjectIds: teachingSubjectIds,
+                        learningSubjectIds: learningSubjectIds,
                       ),
                     ),
                 ],

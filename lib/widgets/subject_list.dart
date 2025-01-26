@@ -1,6 +1,6 @@
 import 'package:case_study/widgets/formatted_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:case_study/models/subject.dart';
+import 'package:case_study/models/models.dart';
 
 enum StudyRole { teaching, learning }
 
@@ -67,7 +67,7 @@ class StudyRoleList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = Theme.of(context).colorScheme.onSecondary;
+    final Color color = Theme.of(context).colorScheme.onSurface;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +85,7 @@ class StudyRoleList extends StatelessWidget {
             for (var subject in subjects)
               FormattedListTile(
                 leftIcon: role == StudyRole.teaching
-                    ? Icon(Icons.arrow_downward, color: color)
+                    ? Icon(Icons.remove_circle_outline, color: color)
                     : Icon(Icons.arrow_back, color: color),
                 onPressedLeft: role == StudyRole.teaching
                     ? () => onMoveToSubjects(subject)
@@ -93,7 +93,7 @@ class StudyRoleList extends StatelessWidget {
                 title: subject.name,
                 rightIcon: role == StudyRole.teaching
                     ? Icon(Icons.arrow_forward, color: color)
-                    : Icon(Icons.arrow_downward, color: color),
+                    : Icon(Icons.remove_circle_outline, color: color),
                 onPressedRight: role == StudyRole.teaching
                     ? () => onMoveToOtherStudyRole(subject)
                     : () => onMoveToSubjects(subject),

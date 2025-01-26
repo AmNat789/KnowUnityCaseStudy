@@ -8,7 +8,7 @@ class UserInfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextStyle titleStyle = TextStyle(
-        fontSize: 16.0, color: Theme.of(context).colorScheme.onSecondary);
+        fontSize: 16.0, color: Theme.of(context).colorScheme.onSurface);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

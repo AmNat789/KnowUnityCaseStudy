@@ -1,6 +1,6 @@
 import 'package:case_study/widgets/formatted_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:case_study/models/subject.dart';
+import 'package:case_study/models/models.dart';
 
 class SubjectSelectionList extends StatelessWidget {
   final List<Subject> subjects;
@@ -22,10 +22,10 @@ class SubjectSelectionList extends StatelessWidget {
       itemBuilder: (context, index) {
         final subject = subjects[index];
         return FormattedListTile(
-          leftIcon: Icon(Icons.arrow_upward),
+          leftIcon: Icon(Icons.add_circle_outline),
           onPressedLeft: () => onMoveToTeaching(subject),
           title: subject.name,
-          rightIcon: Icon(Icons.arrow_upward),
+          rightIcon: Icon(Icons.add_circle_outline),
           onPressedRight: () => onMoveToLearning(subject),
         );
       },
