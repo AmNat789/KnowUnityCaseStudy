@@ -1,14 +1,22 @@
+import 'package:case_study/pages/buddy.dart';
 import 'package:case_study/widgets/subject_list.dart';
 import 'package:case_study/widgets/subject_selection_list.dart';
 import 'package:case_study/widgets/user_info_section.dart';
-
 import 'package:case_study/models/subject.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
   final Map<String, dynamic> userData;
+  final List<int> teachingSubjectIds;
+  final List<int> learningSubjectIds;
 
-  const UserPage({super.key, required this.userData});
+  const UserPage({
+    super.key,
+    required this.userData,
+    required this.teachingSubjectIds,
+    required this.learningSubjectIds,
+  });
 
   @override
   _UserPageState createState() => _UserPageState();
@@ -17,17 +25,30 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   List<Subject> teachingSubjects = [];
   List<Subject> learningSubjects = [];
-  late List<Subject> subjects;
+  List<Subject> subjects = [];
 
   @override
   void initState() {
     super.initState();
-    subjects = (widget.userData['subjects'] as List)
-        .map((subject) => Subject(
-              id: subject['id'],
-              name: subject['name'],
-            ))
-        .toList();
+    initializeSubjects();
+  }
+
+  void initializeSubjects() {
+    for (var userDataSubject in widget.userData['subjects']) {
+      var subject = Subject(
+        id: userDataSubject['id'],
+        name: userDataSubject['name'],
+      );
+
+      if (widget.teachingSubjectIds.contains(userDataSubject['id'])) {
+        teachingSubjects.add(subject);
+      } else if (widget.learningSubjectIds.contains(userDataSubject['id'])) {
+        learningSubjects.add(subject);
+      } else {
+        subjects.add(subject);
+      }
+    }
+    setState(() {});
   }
 
   void moveToTeaching(Subject subject) {
@@ -57,6 +78,21 @@ class _UserPageState extends State<UserPage> {
     });
   }
 
+  Future<void> saveSubjects() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> teachingSubjectsIds =
+        teachingSubjects.map((s) => s.id.toString()).toList();
+    List<String> learningSubjectsIds =
+        learningSubjects.map((s) => s.id.toString()).toList();
+    await prefs.setStringList('teachingSubjects', teachingSubjectsIds);
+    await prefs.setStringList('learningSubjects', learningSubjectsIds);
+
+    if (mounted) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => BuddyPage()));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +112,21 @@ class _UserPageState extends State<UserPage> {
             elevation: 4,
             child: Column(
               children: [
-                UserInfoSection(userData: widget.userData),
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      UserInfoSection(userData: widget.userData),
+                      SizedBox(width: 32),
+                      ElevatedButton(
+                        onPressed: saveSubjects,
+                        child: Text('Save'),
+                      ),
+                    ],
+                  ),
+                ),
                 SubjectLists(
                   teachingSubjects: teachingSubjects,
                   learningSubjects: learningSubjects,

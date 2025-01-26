@@ -10,19 +10,14 @@ class UserInfoSection extends StatelessWidget {
     final TextStyle titleStyle = TextStyle(
         fontSize: 16.0, color: Theme.of(context).colorScheme.onSecondary);
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('ID: ${userData['id']}', style: titleStyle),
-          Text('Name: ${userData['name']}', style: titleStyle),
-          Text('Curriculum: ${userData['curriculum']}', style: titleStyle),
-          Text('Year: ${userData['year']}', style: titleStyle),
-          SizedBox(height: 16.0),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('ID: ${userData['id']}', style: titleStyle),
+        Text('Name: ${userData['name']}', style: titleStyle),
+        Text('Curriculum: ${userData['curriculum']}', style: titleStyle),
+        Text('Year: ${userData['year']}', style: titleStyle),
+      ],
     );
   }
 }
